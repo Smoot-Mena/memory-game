@@ -7,6 +7,7 @@
 ::before {
     margin: 0;
     font-family: "Century Gothic", 'Courier New', Courier, monospace;
+    color: rgb(80, 80, 80);
 }
 
 body {
@@ -22,4 +23,95 @@ nav {
 
 #page-title {
     text-align: center;
+}
+
+#scoreboard {
+    height: 10vh;
+    width: 15vw;
+    display: flex;
+    justify-content: center;
+    flex-flow: row wrap;
+    /* margin-top: 2vh;
+    margin-left: 43vw; */
+    position: absolute;
+    top: 15vh;
+    left: 43vw;
+}
+
+#scoreboard > h2 {
+    margin: 1vh 2vh;
+}
+
+#player-score,
+#computer-score {
+    margin: 2vh 2vw;
+}
+
+#left-sidebar,
+#right-sidebar {
+    margin: 2vh 8vw;
+    height: 25vh;
+    width: 15vw;
+    position: absolute;
+}
+
+#left-sidebar {
+    top: 30vh;
+    left: 10vw;
+}
+
+#right-sidebar {
+    top: 30vh;
+    right: 8vw;
+}
+
+
+#game-options-container {
+    position: absolute;
+    bottom: 15vh;
+    left: 43vw;
+    height: 10vh;
+    width: 15vw;
+    text-align: center;
+}
+
+button {
+    padding: 1vh;
+    border: 2px solid orange;
+    border-radius: 5px;
+    background-color: rgb(252, 219, 159);
+    font-weight: bold;
+}
+
+h4 {
+    width: inherit;
+    text-align: center;
+}
+
+#sizing-list,
+#color-theme {
+    list-style-type: none;
+    padding: 0;
+    
+}
+
+#sizing-list > li,
+#color-theme > li {
+    width: 5vw;
+    margin: 1vh 0;
+    margin-left: 6vw;
+}
+
+#reset-button,
+#versus-button {
+    margin: 1vh 0;
+}
+
+
+/***********************
+*     Mobile Settings
+***********************/
+
+@media screen and (max-width: 1564px) {
+    
 }
