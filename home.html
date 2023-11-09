@@ -13,42 +13,54 @@
 
 <body>
     <nav>
-        <button>Dark Mode</button>
+        <button id="dark-mode-button">Dark Mode</button>
     </nav>
-    <h1 id="page-title">Mena's Matching Memory Game</h1>
-    <section>
 
-    </section>
-    <section id="scoreboard">
-        <h2>SCOREBOARD</h2>
-        <section id="player-score">You</section>
-        <section id="computer-score">Computer</section>
-    </section>
-    <section id="game-container"></section>
-    <section id="left-sidebar">
-        <h4>Board Sizing</h4>
-        <ul id="sizing-list">
-            <li><button>3 x 4</button></li>
-            <li><button>4 x 4</button></li>
-            <li><button>4 x 5</button></li>
-            <li><button>5 x 6</button></li>
-            <li><button>6 x 6</button></li>
-        </ul>
-    </section>
-    <section id="right-sidebar">
-        <h4>Board Colors</h4>
-        <ul id="color-theme">
-            <li><button>Red</button></li>
-            <li><button>Green</button></li>
-            <li><button>Blue</button></li>
-            <li><button>Purple</button></li>
-            <li><button>Default</button></li>
-        </ul>
-    </section>
-    <section id="game-options-container">
-        <h4>Game Options</h4>
-        <button id="reset-button">Reset Game</button>
-        <button id="versus-button">Vs Computer</button>
+    <h1 id="page-title">Mena's Matching Memory Game</h1>
+
+    <section id="game-container">
+
+        <section id="scoreboard">
+            <h2>SCOREBOARD</h2>
+            <section id="player-score"><h3>You</h3>1</section>
+            <section id="computer-score"><h3>AI</h3>5</section>
+        </section>
+
+        <section id="gameboard-container"></section>
+
+        <section id="left-sidebar">
+            <h4>Board Sizing</h4>
+            <ul id="sizing-list">
+                <li><button id="three-by-four" class="sizing-button">3 x 4</button></li>
+                <li><button id="four-by-four" class="sizing-button">4 x 4</button></li>
+                <li><button id="four-by-five" class="sizing-button">4 x 5</button></li>
+                <li><button id="five-by-six" class="sizing-button">5 x 6</button></li>
+                <li><button id="six-by-six" class="sizing-button">6 x 6</button></li>
+            </ul>
+        </section>
+
+        <section id="right-sidebar">
+            <h4>Board Colors</h4>
+            <ul id="color-theme">
+                <li><button id="red" class="color-button">Red</button></li>
+                <li><button id="green" class="color-button">Green</button></li>
+                <li><button id="blue" class="color-button">Blue</button></li>
+                <li><button id="purple" class="color-button">Purple</button></li>
+                <li><button id="default" class="color-button">Default</button></li>
+            </ul>
+        </section>
+
+        <section id="game-options-container">
+            <h4>Game Options</h4>
+            <button id="reset-button">Reset Game</button>
+            <button id="versus-button">Vs AI</button>
+        </section>
+
+        <section id="sun"></section>
+        <section id="cloud1" class="cloud"></section>
+        <section id="cloud2" class="cloud"></section>
+        <section id="cloud3" class="cloud"></section>
+        <section id="cloud4" class="cloud"></section>
     </section>
 </body>
 
