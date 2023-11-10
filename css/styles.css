@@ -10,6 +10,11 @@
     color: rgb(56, 56, 56);
 }
 
+.somethin{
+    color: rgb(99, 104, 255);
+    color: rgb(159, 215, 252)
+}
+
 body {
     height: 100vh;
     width: 100vw;
@@ -33,6 +38,7 @@ button {
     border-radius: 5px;
     background-color: rgb(155, 201, 141);
     font-weight: bold;
+    cursor: pointer;
 }
 
 h4 {
