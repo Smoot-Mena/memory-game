@@ -156,6 +156,13 @@ h4 {
     background-color: rgb(187, 187, 187);
 }
 
+#sky {
+    display: flex;
+    justify-content: space-between;
+    height: 20vh;
+    padding: 0 5vw;
+}
+
 #sun {
     height: 20vh;
     width: 10vw;
@@ -164,6 +171,9 @@ h4 {
     position: absolute;
     top: 2vh;
     left: 2vw;
+    animation-name: breathe;
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
 }
 
 .cloud {
@@ -171,6 +181,37 @@ h4 {
     width: 10vw;
     background-image: radial-gradient(rgb(248, 248, 248), rgb(248, 248, 248), darkgrey);
     border-radius: 35%;
+    z-index: 20;
+}
+
+#cloud1,
+#cloud3 {
+    animation-name: sideways;
+    animation-duration: 10s;
+    animation-iteration-count: infinite;
+}
+
+#cloud2,
+#cloud4 {
+    align-self: flex-end;
+    animation-name: sideways-reverse;
+    animation-duration: 18s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes sideways {
+    50% { transform: translateX(20vw);}
+    100% { transform: translateX(0);}
+}
+
+@keyframes sideways-reverse {
+    50% { transform: translateX(-18vw);}
+    100% { transform: translateX(0);}
+}
+
+@keyframes breathe {
+    50% { transform: scale(1.25);}
+    100% { transform: scale(1);}
 }
 
 /***********************
