@@ -16,6 +16,7 @@
     color: rgb(99, 104, 255);
     color: rgb(159, 215, 252);
     color: rgb(146, 94, 63);
+    
 }
 
 body {
@@ -218,6 +219,14 @@ h4 {
     animation-iteration-count: infinite;
 }
 
+img.back {
+    visibility: hidden;
+}
+
+img.front {
+    visibility: visible;
+}
+
 @keyframes sideways {
     50% { transform: translateX(20vw);}
     100% { transform: translateX(0);}
@@ -239,4 +248,24 @@ h4 {
 
 @media screen and (max-width: 1564px) {
     
+}
+
+@media screen and (max-height: 705px) {
+    #page-title {
+        position: absolute;
+        top: 3vh;
+        left: 35vw;
+    }
+
+    #scoreboard {
+        top: 9vh;
+        left: 38vw;
+        height: 90px;
+        width: 400px;
+    }
+
+    #gameboard-container {
+        top: 24vh;
+        left: 30vw;
+    }
 }

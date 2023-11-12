@@ -1,3 +1,9 @@
+/*******************
+ *   Image Links
+ ******************/
+
+let images = ["/images/creamcheese.png", "/images/greenbellpepper.png", "/images/jam.png", "/images/ketchup.png", "/images/lettuce.png", "/images/marmalade.png", "/images/mayonnaise.png", "/images/mustard.png", "/images/oliveoil.png", "/images/onion.png", "/images/peanutbutter.png", "/images/pepper.png", "/images/pickle.png", "/images/redbellpepper.png", "/images/redonion.png", "/images/salt.png", "/images/tomato.png", "/images/vinegar.png", "/images/yellowbellpepper.png", "/images/yogurt.png"];
+
 /***********************
  *  Global Variables
  **********************/
@@ -5,12 +11,11 @@
 /******Booleans******/
 let isHidden = false;
 let isFaceUp = false;
-let isDarkModeOn = false;
 let isGameActive = false;
+let isDarkModeOn = false;
 
 /***********Elements**********/
 let cards = document.querySelectorAll("div");
-let darkModeButton = document.querySelector("#dark-mode-button");
 let sun = document.querySelector("#sun");
 let clouds = document.querySelectorAll(".cloud");
 let pageTitle = document.querySelector("#page-title");
@@ -19,13 +24,14 @@ let fourByFour = document.querySelector("#four-by-four");
 let fourByFive = document.querySelector("#four-by-five");
 let fiveBySix = document.querySelector("#five-by-six");
 let sixBySix = document.querySelector("#six-by-six");
-let gameBoard = document.querySelector("#gameboard-container");
 let redButton = document.querySelector("#red");
 let greenButton = document.querySelector("#green");
 let blueButton = document.querySelector("#blue");
 let purpleButton = document.querySelector("#purple");
 let defaultButton = document.querySelector("#default");
 let resetButton = document.querySelector("#reset-button");
+let gameBoard = document.querySelector("#gameboard-container");
+let darkModeButton = document.querySelector("#dark-mode-button");
 // let saveSettings = localStorage;
 
 
@@ -82,6 +88,7 @@ function lightMode() {
 threeByFour.addEventListener("click", () => {
     if (isGameActive === false) {
         createCards(3, 4);
+        setImages(3, 4);
     }
 });
 
@@ -89,6 +96,7 @@ threeByFour.addEventListener("click", () => {
 fourByFour.addEventListener("click", () => {
     if (isGameActive === false) {
         createCards(4, 4);
+        setImages(4, 4);
     }
 });
 
@@ -96,6 +104,7 @@ fourByFour.addEventListener("click", () => {
 fourByFive.addEventListener("click", () => {
     if (isGameActive === false) {
         createCards(4, 5);
+        setImages(4, 5);
     }
 });
 
@@ -103,6 +112,7 @@ fourByFive.addEventListener("click", () => {
 fiveBySix.addEventListener("click", () => {
     if (isGameActive === false) {
         createCards(5, 6);
+        setImages(5, 6);
     }
 });
 
@@ -110,6 +120,7 @@ fiveBySix.addEventListener("click", () => {
 sixBySix.addEventListener("click", () => {
     if (isGameActive === false) {
         createCards(6, 6);
+        setImages(6, 6);
     }
 });
 
@@ -142,6 +153,10 @@ defaultButton.addEventListener("click", () => {
 });
 
 
+/**********Card Flip Event Listeners*********/
+
+
+
 
 /************************
  *    Game Options
@@ -161,40 +176,89 @@ resetButton.addEventListener("click", () => {
 function createCards(row, column) {
     for (let x = 1; x <= row; x++) {
         for (let y = 1; y <= column; y++) {
-            let card = document.createElement("div");
+            let _card = document.createElement("div");
+            let _image = document.createElement("img");
+
             if (row == 3 && column == 4) {
-				card.style.height = "100px";
-				card.style.width = "100px";
-				card.style.zIndex = "1000";
-				card.style.margin = "3vh 1.3vw";
+				_card.style.height = "100px";
+				_card.style.width = "100px";
+				_card.style.zIndex = "1000";
+				_card.style.margin = "3vh 1.3vw";
 			}
             if (row == 4 && column == 4) {
-				card.style.height = "90px";
-                card.style.width = "90px";
-                card.style.zIndex = "1000";
-                card.style.margin = "1.2vh 1.5vw";
+				_card.style.height = "90px";
+                _card.style.width = "90px";
+                _card.style.zIndex = "1000";
+                _card.style.margin = "1.2vh 1.5vw";
 			}
             if (row == 4 && column == 5) {
-				card.style.height = "80px";
-                card.style.width = "80px";
-                card.style.zIndex = "1000";
-                card.style.margin = "1.1vh 1.8vw";
+				_card.style.height = "80px";
+                _card.style.width = "80px";
+                _card.style.zIndex = "1000";
+                _card.style.margin = "1.1vh 1.8vw";
 			}
             if (row == 5 && column == 6) {
-				card.style.height = "65px";
-                card.style.width = "65px";
-                card.style.zIndex = "1000";
-                card.style.margin = "1vh 1.4vw";
+				_card.style.height = "65px";
+                _card.style.width = "65px";
+                _card.style.zIndex = "1000";
+                _card.style.margin = "1vh 1.4vw";
 			}
             if (row == 6 && column == 6) {
-				card.style.height = "55px";
-                card.style.width = "55px";
-                card.style.zIndex = "1000";
-                card.style.margin = "1.4vh 1.15vw";
+				_card.style.height = "55px";
+                _card.style.width = "55px";
+                _card.style.zIndex = "1000";
+                _card.style.margin = "1.4vh 1.15vw";
 			}
-            card.style.backgroundColor = "rgb(56, 56, 56)";
-            gameBoard.appendChild(card);
+            _card.style.backgroundColor = "rgb(56, 56, 56)";
+            _card.appendChild(_image);
+            gameBoard.appendChild(_card);
+
             isGameActive = true;
         }
+    }
+}
+
+function setImages(row, column) {
+    let _cardAmount = row * column;
+    let _imagesNeeded = _cardAmount / 2;
+    let _imageSpotsUsed = 0;
+    let _imageGroup = [];
+    let _imageGroup2 = [];
+    let _cardImages = document.querySelectorAll("img");
+
+
+    for (let x = 0; x < _imagesNeeded; x++) {
+        _imageGroup.push(images[x]);
+        _cardImages[x].src = _imageGroup[x];
+        _imageSpotsUsed++;
+    }
+
+    for (let x = _imageSpotsUsed; x < _cardAmount; x++) {
+        _imageGroup2 = _imageGroup;
+        _cardImages[x].src = _imageGroup2[_cardAmount - (x + 1)];
+        _imageSpotsUsed++;
+    }
+    
+    if (row == 3 && column == 4) {
+        _cardImages.forEach(img => {
+            img.style.width = "100px";
+            img.classList.add("back");
+        });
+    }
+
+    if (row == 4 && column == 4) {
+        _cardImages.forEach(img => img.style.width = "90px");
+    }
+
+    if (row == 4 && column == 5) {
+        _cardImages.forEach(img => img.style.width = "80px");
+    }
+
+    if (row == 5 && column == 6) {
+        _cardImages.forEach(img => img.style.width = "65px");
+    }
+
+    if (row == 6 && column == 6) {
+        _cardImages.forEach(img => img.style.width = "55px");
     }
 }
