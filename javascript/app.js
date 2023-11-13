@@ -11,6 +11,7 @@ let images = ["/images/creamcheese.png", "/images/greenbellpepper.png", "/images
 /******Booleans******/
 let isHidden = false;
 let isFlipping = false;
+let cardTurnedUp = 0;
 let isGameActive = false;
 let isDarkModeOn = false;
 
@@ -290,12 +291,12 @@ function cardFlipper () {
 
     cards.forEach(card => {
         card.addEventListener("click", (event) => {
-            let _cardTurnedUp = 0;
 
             cardFaceUp();
-            _cardTurnedUp++;
-            if (_cardTurnedUp >= 2) {
-                setTimeout(cardFaceDown, 300);
+            cardTurnedUp++;
+            console.log(cardTurnedUp);
+            if (cardTurnedUp >= 2) {
+                setTimeout(cardFaceDown, 1200);
             }
 
         });
@@ -312,5 +313,15 @@ function cardFaceUp() {
 }
 
 function cardFaceDown() {
-        
+    cards.forEach(card => {
+        card.classList.remove("hidden");
+        card.classList.add("visible");
+    });
+
+    imgs.forEach(img => {
+        img.classList.remove("visible");
+        img.classList.add("hidden");
+    });
+
+    cardTurnedUp = 0;
 }
