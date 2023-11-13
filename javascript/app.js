@@ -99,6 +99,7 @@ fourByFour.addEventListener("click", () => {
     if (isGameActive === false) {
         createCards(4, 4);
         setImages(4, 4);
+        cardFlipper();
     }
 });
 
@@ -107,6 +108,7 @@ fourByFive.addEventListener("click", () => {
     if (isGameActive === false) {
         createCards(4, 5);
         setImages(4, 5);
+        cardFlipper();
     }
 });
 
@@ -115,6 +117,7 @@ fiveBySix.addEventListener("click", () => {
     if (isGameActive === false) {
         createCards(5, 6);
         setImages(5, 6);
+        cardFlipper();
     }
 });
 
@@ -123,6 +126,7 @@ sixBySix.addEventListener("click", () => {
     if (isGameActive === false) {
         createCards(6, 6);
         setImages(6, 6);
+        cardFlipper();
     }
 });
 
@@ -210,7 +214,7 @@ function createCards(row, column) {
             _card.style.backgroundImage = "url('/images/card-back-alt.jpg')";
             _card.style.backgroundSize = "cover";
             _card.style.backgroundPositionY = "bottom -15px";
-            _card.classList.add("card");
+            _card.classList.add("card", "visible");
             _card.setAttribute("is-face-up", false);
             _card.appendChild(_image);
             gameBoard.appendChild(_card);
@@ -245,35 +249,35 @@ function setImages(row, column) {
     if (row == 3 && column == 4) {
         _cardImages.forEach(img => {
             img.style.width = "100px";
-            img.style.visibility = "hidden";
+            img.classList.add("hidden");
         });
     }
 
     if (row == 4 && column == 4) {
         _cardImages.forEach(img => {
             img.style.width = "90px";
-            img.style.visibility = "hidden";
+            img.classList.add("hidden");
         });
     }
 
     if (row == 4 && column == 5) {
         _cardImages.forEach(img => {
             img.style.width = "80px";
-            img.style.visibility = "hidden";
+            img.classList.add("hidden");
         });
     }
 
     if (row == 5 && column == 6) {
         _cardImages.forEach(img => {
             img.style.width = "65px";
-            img.style.visibility = "hidden";
+            img.classList.add("hidden");
         });
     }
 
     if (row == 6 && column == 6) {
         _cardImages.forEach(img => {
             img.style.width = "55px";
-            img.style.visibility = "hidden";
+            img.classList.add("hidden");
         });
     }
 
@@ -281,39 +285,32 @@ function setImages(row, column) {
 }
 
 function cardFlipper () {
-    console.log(cards);
-    console.log(imgs);
-    cards.forEach(card => card.style.cursor = "pointer");
-    let _cardAndImagePairings = {};
-
-    function _cardFaceUp() {
-        if (this.event.target["firstElementChild"]["style"]["visibility"] === "hidden") {
-            this.event.target["firstElementChild"]["style"]["visibility"] = "visible";
-            isFlipping = true;
-        }
-    }
-
-    function _cardFaceDown() {
-
-    }
     
-
-    for (let x = 0; x < cards.length; x++) {
-        _cardAndImagePairings[x] = cards[x];
-    }
+    cards.forEach(card => card.style.cursor = "pointer");
 
     cards.forEach(card => {
         card.addEventListener("click", (event) => {
-            this.event.target.style.visibility = "hidden";
-            let _cardsFlipped = 0;
-            
-            _cardFaceUp();
-            _cardsFlipped++;
+            let _cardTurnedUp = 0;
 
-            if(_cardsFlipped === 2) {
-                return _cardFaceDown();
+            cardFaceUp();
+            _cardTurnedUp++;
+            if (_cardTurnedUp >= 2) {
+                setTimeout(cardFaceDown, 300);
             }
-                        
+
         });
     });
+}
+
+function cardFaceUp() {
+    if (this.event.target.classList.contains("visible")) {
+        this.event.target.classList.remove("visible");
+        this.event.target.classList.add("hidden");
+        this.event.target.firstChild.classList.remove("hidden");
+        this.event.target.firstChild.classList.add("visible");
+    }
+}
+
+function cardFaceDown() {
+        
 }

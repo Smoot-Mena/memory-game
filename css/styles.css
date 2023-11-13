@@ -219,13 +219,13 @@ h4 {
     animation-iteration-count: infinite;
 }
 
-/* img.back {
+.hidden {
     visibility: hidden;
 }
 
-img.front {
+.visible {
     visibility: visible;
-} */
+}
 
 @keyframes sideways {
     50% { transform: translateX(20vw);}
