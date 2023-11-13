@@ -10,12 +10,13 @@ let images = ["/images/creamcheese.png", "/images/greenbellpepper.png", "/images
 
 /******Booleans******/
 let isHidden = false;
-let isFaceUp = false;
+let isFlipping = false;
 let isGameActive = false;
 let isDarkModeOn = false;
 
 /***********Elements**********/
-let cards = document.querySelectorAll("div");
+let cards = null;
+let imgs = null;
 let sun = document.querySelector("#sun");
 let clouds = document.querySelectorAll(".cloud");
 let pageTitle = document.querySelector("#page-title");
@@ -89,6 +90,7 @@ threeByFour.addEventListener("click", () => {
     if (isGameActive === false) {
         createCards(3, 4);
         setImages(3, 4);
+        cardFlipper();
     }
 });
 
@@ -153,11 +155,6 @@ defaultButton.addEventListener("click", () => {
 });
 
 
-/**********Card Flip Event Listeners*********/
-
-
-
-
 /************************
  *    Game Options
  ***********************/
@@ -210,10 +207,16 @@ function createCards(row, column) {
                 _card.style.margin = "1.4vh 1.15vw";
 			}
             _card.style.backgroundColor = "rgb(56, 56, 56)";
+            _card.style.backgroundImage = "url('/images/card-back-alt.jpg')";
+            _card.style.backgroundSize = "cover";
+            _card.style.backgroundPositionY = "bottom -15px";
+            _card.classList.add("card");
+            _card.setAttribute("is-face-up", false);
             _card.appendChild(_image);
             gameBoard.appendChild(_card);
 
             isGameActive = true;
+            cards = document.querySelectorAll(".card");
         }
     }
 }
@@ -242,23 +245,75 @@ function setImages(row, column) {
     if (row == 3 && column == 4) {
         _cardImages.forEach(img => {
             img.style.width = "100px";
-            img.classList.add("back");
+            img.style.visibility = "hidden";
         });
     }
 
     if (row == 4 && column == 4) {
-        _cardImages.forEach(img => img.style.width = "90px");
+        _cardImages.forEach(img => {
+            img.style.width = "90px";
+            img.style.visibility = "hidden";
+        });
     }
 
     if (row == 4 && column == 5) {
-        _cardImages.forEach(img => img.style.width = "80px");
+        _cardImages.forEach(img => {
+            img.style.width = "80px";
+            img.style.visibility = "hidden";
+        });
     }
 
     if (row == 5 && column == 6) {
-        _cardImages.forEach(img => img.style.width = "65px");
+        _cardImages.forEach(img => {
+            img.style.width = "65px";
+            img.style.visibility = "hidden";
+        });
     }
 
     if (row == 6 && column == 6) {
-        _cardImages.forEach(img => img.style.width = "55px");
+        _cardImages.forEach(img => {
+            img.style.width = "55px";
+            img.style.visibility = "hidden";
+        });
     }
+
+    imgs = document.querySelectorAll("img");
+}
+
+function cardFlipper () {
+    console.log(cards);
+    console.log(imgs);
+    cards.forEach(card => card.style.cursor = "pointer");
+    let _cardAndImagePairings = {};
+
+    function _cardFaceUp() {
+        if (this.event.target["firstElementChild"]["style"]["visibility"] === "hidden") {
+            this.event.target["firstElementChild"]["style"]["visibility"] = "visible";
+            isFlipping = true;
+        }
+    }
+
+    function _cardFaceDown() {
+
+    }
+    
+
+    for (let x = 0; x < cards.length; x++) {
+        _cardAndImagePairings[x] = cards[x];
+    }
+
+    cards.forEach(card => {
+        card.addEventListener("click", (event) => {
+            this.event.target.style.visibility = "hidden";
+            let _cardsFlipped = 0;
+            
+            _cardFaceUp();
+            _cardsFlipped++;
+
+            if(_cardsFlipped === 2) {
+                return _cardFaceDown();
+            }
+                        
+        });
+    });
 }

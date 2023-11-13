@@ -219,13 +219,13 @@ h4 {
     animation-iteration-count: infinite;
 }
 
-img.back {
+/* img.back {
     visibility: hidden;
 }
 
 img.front {
     visibility: visible;
-}
+} */
 
 @keyframes sideways {
     50% { transform: translateX(20vw);}
@@ -266,6 +266,6 @@ img.front {
 
     #gameboard-container {
         top: 24vh;
-        left: 30vw;
+        left: 31vw;
     }
 }
