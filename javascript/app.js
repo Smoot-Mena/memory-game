@@ -11,9 +11,13 @@ let images = ["/images/creamcheese.png", "/images/greenbellpepper.png", "/images
 /******Booleans******/
 let isHidden = false;
 let isFlipping = false;
+let savedCards = [];
 let cardTurnedUp = 0;
+let playerScore = 0;
+let computerScore = 0;
 let isGameActive = false;
 let isDarkModeOn = false;
+
 
 /***********Elements**********/
 let cards = null;
@@ -21,6 +25,7 @@ let imgs = null;
 let sun = document.querySelector("#sun");
 let clouds = document.querySelectorAll(".cloud");
 let pageTitle = document.querySelector("#page-title");
+let viewPlayerScore = document.querySelector("#player-score");
 let threeByFour = document.querySelector("#three-by-four");
 let fourByFour = document.querySelector("#four-by-four");
 let fourByFive = document.querySelector("#four-by-five");
@@ -294,7 +299,6 @@ function cardFlipper () {
 
             cardFaceUp();
             cardTurnedUp++;
-            console.log(cardTurnedUp);
             if (cardTurnedUp >= 2) {
                 setTimeout(cardFaceDown, 1200);
             }
@@ -309,19 +313,32 @@ function cardFaceUp() {
         this.event.target.classList.add("hidden");
         this.event.target.firstChild.classList.remove("hidden");
         this.event.target.firstChild.classList.add("visible");
+        let _firstChildCopy = this.event.target.firstChild;
+        savedCards.push(_firstChildCopy);
     }
 }
 
 function cardFaceDown() {
-    cards.forEach(card => {
-        card.classList.remove("hidden");
-        card.classList.add("visible");
-    });
+    // console.log(savedCards[0].src, savedCards[1].src);
+    if (savedCards[0].src === savedCards[1].src) {
+        // savedCards = [];
+        playerScore++;
+    } else {
+        cards.forEach(card => {
+            card.classList.remove("hidden");
+            card.classList.add("visible");
+        });
+    
+        imgs.forEach(img => {
+            img.classList.remove("visible");
+            img.classList.add("hidden");
+        });
+    }
 
-    imgs.forEach(img => {
-        img.classList.remove("visible");
-        img.classList.add("hidden");
-    });
+    
 
     cardTurnedUp = 0;
 }
+
+// Keep player score
+viewPlayerScore.innerHTML = `<h3>You</h3>${playerScore}`
