@@ -31,6 +31,7 @@ let sun = document.querySelector("#sun");
 let clouds = document.querySelectorAll(".cloud");
 let pageTitle = document.querySelector("#page-title");
 let viewPlayerScore = document.querySelector("#player-score");
+let viewComputerScore = document.querySelector("#computer-score");
 let threeByFour = document.querySelector("#three-by-four");
 let fourByFour = document.querySelector("#four-by-four");
 let fourByFive = document.querySelector("#four-by-five");
@@ -177,8 +178,8 @@ defaultButton.addEventListener("click", () => {
 /*******Reset Game Button*******/
 
 resetButton.addEventListener("click", () => {
-    gameBoard.innerHTML = "";
-    isGameActive = false;
+    clearGameBoard();
+    clearScores();
 });
 
 /******************
@@ -347,8 +348,33 @@ function cardFaceDown() {
     imgs = document.querySelectorAll(".card-image");
 }
 
-// Keep player score
+/**************************
+ *  Clear GameBoard
+ *************************/
+
+function clearGameBoard() {
+    gameBoard.innerHTML = ``;
+    isGameActive = false;
+}
+
+
+/**********************
+ *  Keeping Scores
+ *********************/
+
 function keepPlayerScore() {
     playerScore++;
-    viewPlayerScore.innerHTML = `<h3>You</h3>${playerScore}`
+    viewPlayerScore.innerHTML = `<h3>You</h3>${playerScore}`;
+}
+
+function keepComputerScore() {
+    computerScore++;
+    viewComputerScore.innerHTML = `<h3>AI</h3>${computerScore}`;
+}
+
+function clearScores() {
+    playerScore = 0;
+    computerScore = 0;
+    viewPlayerScore.innerHTML = ``;
+    viewComputerScore.innerHTML = ``;
 }
