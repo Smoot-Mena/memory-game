@@ -4,6 +4,11 @@
 
 let images = ["/images/creamcheese.png", "/images/greenbellpepper.png", "/images/jam.png", "/images/ketchup.png", "/images/lettuce.png", "/images/marmalade.png", "/images/mayonnaise.png", "/images/mustard.png", "/images/oliveoil.png", "/images/onion.png", "/images/peanutbutter.png", "/images/pepper.png", "/images/pickle.png", "/images/redbellpepper.png", "/images/redonion.png", "/images/salt.png", "/images/tomato.png", "/images/vinegar.png", "/images/yellowbellpepper.png", "/images/yogurt.png"];
 
+// Remember to shuffle the array
+// function shuffleArray(arr) {
+//     arr.sort(() => Math.random() - 0.1);
+//   }
+
 /***********************
  *  Global Variables
  **********************/
@@ -221,7 +226,6 @@ function createCards(row, column) {
             _card.style.backgroundSize = "cover";
             _card.style.backgroundPositionY = "bottom -15px";
             _card.classList.add("card", "visible");
-            _card.setAttribute("is-face-up", false);
             _card.appendChild(_image);
             gameBoard.appendChild(_card);
 
@@ -255,39 +259,39 @@ function setImages(row, column) {
     if (row == 3 && column == 4) {
         _cardImages.forEach(img => {
             img.style.width = "100px";
-            img.classList.add("hidden");
+            img.classList.add("card-image", "hidden");
         });
     }
 
     if (row == 4 && column == 4) {
         _cardImages.forEach(img => {
             img.style.width = "90px";
-            img.classList.add("hidden");
+            img.classList.add("card-image", "hidden");
         });
     }
 
     if (row == 4 && column == 5) {
         _cardImages.forEach(img => {
             img.style.width = "80px";
-            img.classList.add("hidden");
+            img.classList.add("card-image", "hidden");
         });
     }
 
     if (row == 5 && column == 6) {
         _cardImages.forEach(img => {
             img.style.width = "65px";
-            img.classList.add("hidden");
+            img.classList.add("card-image", "hidden");
         });
     }
 
     if (row == 6 && column == 6) {
         _cardImages.forEach(img => {
             img.style.width = "55px";
-            img.classList.add("hidden");
+            img.classList.add("card-image", "hidden");
         });
     }
 
-    imgs = document.querySelectorAll("img");
+    imgs = document.querySelectorAll(".card-image");
 }
 
 function cardFlipper () {
@@ -313,16 +317,18 @@ function cardFaceUp() {
         this.event.target.classList.add("hidden");
         this.event.target.firstChild.classList.remove("hidden");
         this.event.target.firstChild.classList.add("visible");
+        let _parent = this.event.target;
         let _firstChildCopy = this.event.target.firstChild;
-        savedCards.push(_firstChildCopy);
+        savedCards.push(_parent, _firstChildCopy);
     }
 }
 
 function cardFaceDown() {
-    // console.log(savedCards[0].src, savedCards[1].src);
-    if (savedCards[0].src === savedCards[1].src) {
-        // savedCards = [];
-        playerScore++;
+    if (savedCards[1].src === savedCards[3].src) {
+        savedCards.forEach(card => {
+            card.classList.remove("card", "card-image")
+        });
+        keepPlayerScore(); 
     } else {
         cards.forEach(card => {
             card.classList.remove("hidden");
@@ -335,10 +341,14 @@ function cardFaceDown() {
         });
     }
 
-    
-
+    savedCards = [];
     cardTurnedUp = 0;
+    cards = document.querySelectorAll(".card");
+    imgs = document.querySelectorAll(".card-image");
 }
 
 // Keep player score
-viewPlayerScore.innerHTML = `<h3>You</h3>${playerScore}`
+function keepPlayerScore() {
+    playerScore++;
+    viewPlayerScore.innerHTML = `<h3>You</h3>${playerScore}`
+}
