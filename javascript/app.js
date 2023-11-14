@@ -4,10 +4,6 @@
 
 let images = ["/images/creamcheese.png", "/images/greenbellpepper.png", "/images/jam.png", "/images/ketchup.png", "/images/lettuce.png", "/images/marmalade.png", "/images/mayonnaise.png", "/images/mustard.png", "/images/oliveoil.png", "/images/onion.png", "/images/peanutbutter.png", "/images/pepper.png", "/images/pickle.png", "/images/redbellpepper.png", "/images/redonion.png", "/images/salt.png", "/images/tomato.png", "/images/vinegar.png", "/images/yellowbellpepper.png", "/images/yogurt.png"];
 
-// Remember to shuffle the array
-// function shuffleArray(arr) {
-//     arr.sort(() => Math.random() - 0.1);
-//   }
 
 /***********************
  *  Global Variables
@@ -69,6 +65,7 @@ darkModeButton.addEventListener("click", () => {
     }
 });
 
+/********Handles dark mode********/
 function darkMode() {
     document.body.style.backgroundImage = "linear-gradient(rgb(99, 104, 255),rgb(0, 89, 148), rgb(59, 50, 55))";
     darkModeButton.style.backgroundColor = "rgb(238, 238, 238)";
@@ -78,6 +75,7 @@ function darkMode() {
     clouds.forEach(cloud => cloud.style.visibility = "hidden");
 }
 
+/********Handles light mode********/
 function lightMode() {
     document.body.style.backgroundImage = "linear-gradient(rgb(0, 250, 255), rgb(0, 150, 255), rgb(0, 155, 39), rgb(146, 94, 63))";
     darkModeButton.style.backgroundColor = "yellow";
@@ -186,6 +184,7 @@ resetButton.addEventListener("click", () => {
  *    Functions
  *****************/
 
+/***********Creates the cards************/
 function createCards(row, column) {
     for (let x = 1; x <= row; x++) {
         for (let y = 1; y <= column; y++) {
@@ -236,6 +235,7 @@ function createCards(row, column) {
     }
 }
 
+/**********Creates the images************/
 function setImages(row, column) {
     let _cardAmount = row * column;
     let _imagesNeeded = _cardAmount / 2;
@@ -244,12 +244,15 @@ function setImages(row, column) {
     let _imageGroup2 = [];
     let _cardImages = document.querySelectorAll("img");
 
-
+/*****Grabs the amount of images needed for the puzzle size*****/
     for (let x = 0; x < _imagesNeeded; x++) {
+        shuffleImages(images);
         _imageGroup.push(images[x]);
         _cardImages[x].src = _imageGroup[x];
         _imageSpotsUsed++;
     }
+
+    shuffleImages(_imageGroup);
 
     for (let x = _imageSpotsUsed; x < _cardAmount; x++) {
         _imageGroup2 = _imageGroup;
@@ -295,8 +298,8 @@ function setImages(row, column) {
     imgs = document.querySelectorAll(".card-image");
 }
 
+/*********Manages the card flips**********/
 function cardFlipper () {
-    
     cards.forEach(card => card.style.cursor = "pointer");
 
     cards.forEach(card => {
@@ -305,13 +308,14 @@ function cardFlipper () {
             cardFaceUp();
             cardTurnedUp++;
             if (cardTurnedUp >= 2) {
-                setTimeout(cardFaceDown, 1200);
+                setTimeout(cardFaceDown, 800);
             }
 
         });
     });
 }
 
+/********Handles the card flipping face up********/
 function cardFaceUp() {
     if (this.event.target.classList.contains("visible")) {
         this.event.target.classList.remove("visible");
@@ -324,6 +328,7 @@ function cardFaceUp() {
     }
 }
 
+/******Handles the card flipping face down*******/
 function cardFaceDown() {
     if (savedCards[1].src === savedCards[3].src) {
         savedCards.forEach(card => {
@@ -346,6 +351,16 @@ function cardFaceDown() {
     cardTurnedUp = 0;
     cards = document.querySelectorAll(".card");
     imgs = document.querySelectorAll(".card-image");
+}
+
+/*******Randomizes the images array********/
+// (Fisher-Yates shuffle)
+function shuffleImages(array) {
+    for (let x = array.length - 1; x > 0; x--) {
+        let randomIndex = Math.floor(Math.random() * (x + 1));
+
+        [array[x], array[randomIndex]] = [array[randomIndex], array[x]];
+    }
 }
 
 /**************************
