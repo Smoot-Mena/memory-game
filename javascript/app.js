@@ -13,6 +13,7 @@ let images = ["/images/creamcheese.png", "/images/greenbellpepper.png", "/images
 let isHidden = false;
 let isFlipping = false;
 let isGameActive = false;
+let isVersusComputer = false;
 let isDarkModeOn = false;
 
 /******Empty Variables*******/
@@ -27,6 +28,7 @@ let currentGameCardCount = 0;
 /***********Elements**********/
 
 let sun = document.querySelector("#sun");
+let sky = document.querySelector("#sky");
 let clouds = document.querySelectorAll(".cloud");
 let pageTitle = document.querySelector("#page-title");
 let viewPlayerScore = document.querySelector("#player-score");
@@ -44,6 +46,7 @@ let defaultButton = document.querySelector("#default");
 let resetButton = document.querySelector("#reset-button");
 let gameBoard = document.querySelector("#gameboard-container");
 let darkModeButton = document.querySelector("#dark-mode-button");
+let opponent = document.querySelector("#versus-button");
 // let saveSettings = localStorage;
 
 
@@ -71,22 +74,25 @@ darkModeButton.addEventListener("click", () => {
 /********Handles dark mode********/
 function darkMode() {
     document.body.style.backgroundImage = "linear-gradient(rgb(99, 104, 255),rgb(0, 89, 148), rgb(59, 50, 55))";
+    darkModeButton.innerText = "Light Mode";
     darkModeButton.style.backgroundColor = "rgb(238, 238, 238)";
     darkModeButton.style.borderColor = "darkgrey";
     sun.style.backgroundImage = "radial-gradient(rgb(248, 248, 248), rgb(248, 248, 248), darkgrey, darkgrey)";
     pageTitle.style.color = "snow";
     clouds.forEach(cloud => cloud.style.visibility = "hidden");
+    // createStars();
 }
 
 /********Handles light mode********/
 function lightMode() {
     document.body.style.backgroundImage = "linear-gradient(rgb(0, 250, 255), rgb(0, 150, 255), rgb(0, 155, 39), rgb(146, 94, 63))";
+    darkModeButton.innerText = "Dark Mode";
     darkModeButton.style.backgroundColor = "yellow";
     darkModeButton.style.borderColor = "goldenrod";
     sun.style.backgroundImage = "radial-gradient(yellow, yellow, yellow, orange, orange)";
     pageTitle.style.color = "rgb(56, 56, 56)";
     clouds.forEach(cloud => cloud.style.visibility = "visible");
-    
+    removeStars();
 }
 
 /*********END OF DARK MODE******* */
@@ -145,7 +151,6 @@ sixBySix.addEventListener("click", () => {
 
 
 /**********Board Color Event Listeners*********/
-
 redButton.addEventListener("click", () => {
     gameBoard.style.borderColor = "red";
     gameBoard.style.backgroundColor = "rgb(255, 185, 185)";
@@ -177,23 +182,57 @@ defaultButton.addEventListener("click", () => {
  ***********************/
 
 /*******Reset Game Button*******/
-
 resetButton.addEventListener("click", () => {
     if (confirm("Are you sure you want to reset the game?")) {
         resetEverything();
     }
-    
 });
 
-/******************
- *    Functions
- *****************/
+/****Versus computer Button****/
+opponent.addEventListener("click", () => {
+    if (confirm("Start game vs computer?")) {
+        vsComputer();
+    }
+});
+
+/************************
+ *  Game  Functions
+ ***********************/
+
+/********Creates the stars for Dark Mode********/
+function createStars() {
+    let _starAmount = Math.floor(Math.random() * (30 - 10) + 10);
+
+    for (let x = 1; x <= _starAmount; x++) {
+        let _star = document.createElement("section");
+
+        _star.style.height = "3px";
+        _star.style.width = "3px";
+        _star.style.borderRadius = "5px";
+        _star.style.backgroundColor = "snow";
+        _star.style.alignItems = "space-between";
+        _star.style.justifyItems = "center";
+        _star.style.animation = "breathe 3s infinite, color-change 5s infinite";
+        _star.style.margin = "1px 2px";
+        _star.classList.add("star");
+
+        sky.appendChild(_star);
+    }
+}
+
+/*****Removes the stars in Dark Mode*****/
+function removeStars() {
+    let _stars = document.querySelectorAll(".star");
+    for (let star of _stars) {
+        sky.removeChild(star);
+    }
+}
 
 /***********Creates the cards************/
 function createCards(row, column) {
     for (let x = 1; x <= row; x++) {
         for (let y = 1; y <= column; y++) {
-            let _card = document.createElement("div");
+            let _card = document.createElement("section");
             let _image = document.createElement("img");
 
             if (row == 3 && column == 4) {
@@ -385,10 +424,48 @@ function shuffleImages(array) {
 //     return array;
 // }
 
+/****Sets up game versus computer****/
+function vsComputer() {
+    if (isGameActive === false) {
+        let randomGameChoice = Math.floor(Math.random() * 5);
+        setupScoreboard();
+        if (randomGameChoice === 1) {
+            createCards(3, 4);
+            setImages(3, 4);
+            cardFlipper();
+        } else if (randomGameChoice === 2) {
+            createCards(4, 4);
+            setImages(4, 4);
+            cardFlipper();
+        } else if (randomGameChoice === 3) {
+            createCards(4, 5);
+            setImages(4, 5);
+            cardFlipper();
+        } else if (randomGameChoice === 4) {
+            createCards(5, 6);
+            setImages(5, 6);
+            cardFlipper();
+        } else if (randomGameChoice === 5) {
+            createCards(6, 6);
+            setImages(6, 6);
+            cardFlipper();
+        }
+        isVersusComputer = true;
+    }
+    
+}
+
+/*****Sets up scoreboard for versus computer game*****/
+function setupScoreboard() {
+    viewPlayerScore.innerHTML = `<h3>You</h3>${playerScore}`;
+    viewComputerScore.innerHTML = `<h3>AI</h3>${computerScore}`;
+}
+
 /**************************
  *  Clear GameBoard
  *************************/
 
+/***Clears the game board and renders the game inactive***/
 function clearGameBoard() {
     gameBoard.innerHTML = ``;
     isGameActive = false;

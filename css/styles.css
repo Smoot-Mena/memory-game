@@ -242,6 +242,13 @@ h4 {
     100% { transform: scale(1);}
 }
 
+/* @keyframes change-color {
+    25% { background-color: goldenrod;}
+    50% { background-color: gold;}
+    75% { background-color: darkgrey;}
+    100% { background-color: snow;}
+} */
+
 /***********************
 *     Mobile Settings
 ***********************/
