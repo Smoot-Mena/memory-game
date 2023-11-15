@@ -12,17 +12,20 @@ let images = ["/images/creamcheese.png", "/images/greenbellpepper.png", "/images
 /******Booleans******/
 let isHidden = false;
 let isFlipping = false;
+let isGameActive = false;
+let isDarkModeOn = false;
+
+/******Empty Variables*******/
 let savedCards = [];
 let cardTurnedUp = 0;
 let playerScore = 0;
 let computerScore = 0;
-let isGameActive = false;
-let isDarkModeOn = false;
-
-
-/***********Elements**********/
 let cards = null;
 let imgs = null;
+let currentGameCardCount = 0;
+
+/***********Elements**********/
+
 let sun = document.querySelector("#sun");
 let clouds = document.querySelectorAll(".cloud");
 let pageTitle = document.querySelector("#page-title");
@@ -176,8 +179,10 @@ defaultButton.addEventListener("click", () => {
 /*******Reset Game Button*******/
 
 resetButton.addEventListener("click", () => {
-    clearGameBoard();
-    clearScores();
+    if (confirm("Are you sure you want to reset the game?")) {
+        resetEverything();
+    }
+    
 });
 
 /******************
@@ -233,6 +238,7 @@ function createCards(row, column) {
             cards = document.querySelectorAll(".card");
         }
     }
+    currentGameCardCount = cards.length;
 }
 
 /**********Creates the images************/
@@ -246,8 +252,9 @@ function setImages(row, column) {
 
 /*****Grabs the amount of images needed for the puzzle size*****/
     for (let x = 0; x < _imagesNeeded; x++) {
-        shuffleImages(images);
-        _imageGroup.push(images[x]);
+        _imageCopy = images.slice(0);
+        shuffleImages(_imageCopy);
+        _imageGroup.push(_imageCopy[x]);
         _cardImages[x].src = _imageGroup[x];
         _imageSpotsUsed++;
     }
@@ -354,14 +361,29 @@ function cardFaceDown() {
 }
 
 /*******Randomizes the images array********/
-// (Fisher-Yates shuffle)
+// (Fisher-Yates ish shuffle)
 function shuffleImages(array) {
-    for (let x = array.length - 1; x > 0; x--) {
-        let randomIndex = Math.floor(Math.random() * (x + 1));
+    for (let x = 0; x < array.length; x++) {
+        let randomIndex = Math.floor(Math.random() * (x));
 
         [array[x], array[randomIndex]] = [array[randomIndex], array[x]];
     }
 }
+
+// (Richard Durstenfeld shuffle)
+// function shuffleImages(array) {
+//     let currentIndex = array.length;
+
+//     while (0 !== currentIndex) {
+//         let randomIndex = Math.floor(Math.random() * currentIndex);
+//         currentIndex--;
+
+//         let tempIndex = array[currentIndex];
+//         array[currentIndex] = array[randomIndex];
+//         array[randomIndex] = tempIndex; 
+//     }
+//     return array;
+// }
 
 /**************************
  *  Clear GameBoard
@@ -372,24 +394,39 @@ function clearGameBoard() {
     isGameActive = false;
 }
 
+/*******Resets Everything********/
+function resetEverything() {
+    clearGameBoard();
+    clearScores();
+}
+
 
 /**********************
  *  Keeping Scores
  *********************/
 
+/*****Keeps player score*****/
 function keepPlayerScore() {
     playerScore++;
     viewPlayerScore.innerHTML = `<h3>You</h3>${playerScore}`;
+    if (playerScore === currentGameCardCount / 2) {
+        alert("CONGRATULATIONS! You Win!");
+        resetEverything();
+    }
 }
 
+/*****Keeps computer score*****/
 function keepComputerScore() {
     computerScore++;
     viewComputerScore.innerHTML = `<h3>AI</h3>${computerScore}`;
 }
 
+/*****Clears all scores when game is reset*****/
 function clearScores() {
     playerScore = 0;
     computerScore = 0;
     viewPlayerScore.innerHTML = ``;
     viewComputerScore.innerHTML = ``;
 }
+
+/*****************END OF FILE!!!******************/
