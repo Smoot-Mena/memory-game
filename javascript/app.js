@@ -1,20 +1,15 @@
-/*******************
- *   Image Links
- ******************/
-
-let images = ["./images/chilisauce.png","./images/bread.png","./images/butter.png","./images/bacon.png","./images/creamcheese.png", "./images/greenbellpepper.png", "./images/jam.png", "./images/ketchup.png", "./images/lettuce.png", "./images/marmalade.png", "./images/mayonnaise.png", "./images/mustard.png", "./images/oliveoil.png", "./images/onion.png", "./images/peanutbutter.png", "./images/pepper.png", "./images/pickle.png", "./images/redbellpepper.png", "./images/redonion.png", "./images/salt.png", "./images/tomato.png", "./images/vinegar.png", "./images/yellowbellpepper.png", "./images/yogurt.png"];
-
-
-/***************
- *    Sounds
- **************/
-
-let buzzer = "./sounds/Buzzer1.ogg";
-let win = "./sounds/Refresh.ogg";
-
 /***********************
  *  Global Variables
  **********************/
+
+/***Image Links***/
+let images = ["./images/chilisauce.png","./images/bread.png","./images/butter.png","./images/bacon.png","./images/creamcheese.png", "./images/greenbellpepper.png", "./images/jam.png", "./images/ketchup.png", "./images/lettuce.png", "./images/marmalade.png", "./images/mayonnaise.png", "./images/mustard.png", "./images/oliveoil.png", "./images/onion.png", "./images/peanutbutter.png", "./images/pepper.png", "./images/pickle.png", "./images/redbellpepper.png", "./images/redonion.png", "./images/salt.png", "./images/tomato.png", "./images/vinegar.png", "./images/yellowbellpepper.png", "./images/yogurt.png"];
+
+
+/***Sound Links***/
+let buzzer = "./sounds/Buzzer1.ogg";
+let win = "./sounds/Refresh.ogg";
+
 
 /******Booleans******/
 let isHidden = false;
@@ -22,6 +17,8 @@ let isFlipping = false;
 let isGameActive = false;
 let isVersusComputer = false;
 let isDarkModeOn = false;
+let isPlayerTurn = false;
+let isComputerTurn = false;
 
 /******Empty Variables*******/
 let savedCards = [];
@@ -30,11 +27,13 @@ let playerScore = 0;
 let computerScore = 0;
 let cards = null;
 let imgs = null;
+let totalCardAmount = 0;
 let currentGameCardCount = 0;
 let computerGameChoice = 0;
+let controlFlow = 0;
+let cardSlotsAvailable = [];
 
 /***********Elements**********/
-
 let sun = document.querySelector("#sun");
 let sky = document.querySelector("#sky");
 let clouds = document.querySelectorAll(".cloud");
@@ -119,6 +118,7 @@ threeByFour.addEventListener("click", (event) => {
         createCards(3, 4);
         setImages(3, 4);
         cardFlipper();
+        isPlayerTurn = true;
     }
 });
 
@@ -129,6 +129,7 @@ fourByFour.addEventListener("click", (event) => {
         createCards(4, 4);
         setImages(4, 4);
         cardFlipper();
+        isPlayerTurn = true;
     }
 });
 
@@ -139,6 +140,7 @@ fourByFive.addEventListener("click", (event) => {
         createCards(4, 5);
         setImages(4, 5);
         cardFlipper();
+        isPlayerTurn = true;
     }
 });
 
@@ -149,6 +151,7 @@ fiveBySix.addEventListener("click", (event) => {
         createCards(5, 6);
         setImages(5, 6);
         cardFlipper();
+        isPlayerTurn = true;
     }
 });
 
@@ -159,6 +162,7 @@ sixBySix.addEventListener("click", (event) => {
         createCards(6, 6);
         setImages(6, 6);
         cardFlipper();
+        isPlayerTurn = true;
     }
 });
 
@@ -311,7 +315,7 @@ function setImages(row, column) {
 
 /*****Grabs the amount of images needed for the puzzle size*****/
     for (let x = 0; x < _imagesNeeded; x++) {
-        _imageCopy = images.slice(0);
+        let _imageCopy = images;
         shuffleImages(_imageCopy);
         _imageGroup.push(_imageCopy[x]);
         _cardImages[x].src = _imageGroup[x];
@@ -370,11 +374,12 @@ function cardFlipper () {
 
     cards.forEach(card => {
         card.addEventListener("click", (event) => {
-
+            event.preventDefault();
             cardFaceUp();
             cardTurnedUp++;
             if (cardTurnedUp === 2) {
-                setTimeout(cardFaceDown, 850);
+                document.body.style.pointerEvents = "none";
+                setTimeout(cardFaceDown, 800);
             } 
         });
     });
@@ -402,7 +407,7 @@ function cardFaceDown() {
     //     _audio.load();
     //     _audio.play();
 
-    if (savedCards[1].src === savedCards[3].src) {
+    if (savedCards[1].src === savedCards[3].src && isPlayerTurn === true) {
         savedCards.forEach(card => {
             card.classList.remove("card", "card-image")
         });
@@ -421,15 +426,17 @@ function cardFaceDown() {
 
     savedCards = [];
     cardTurnedUp = 0;
+    document.body.style.pointerEvents = "auto";
     cards = document.querySelectorAll(".card");
     imgs = document.querySelectorAll(".card-image");
+    winLose();
 }
 
 /*******Randomizes the images array********/
-// (Fisher-Yates ish shuffle)
+// (Fisher-Yates shuffle)
 function shuffleImages(array) {
-    for (let x = 0; x < array.length; x++) {
-        let randomIndex = Math.floor(Math.random() * (x));
+    for (let x = array.length - 1; x > 0; x--) {
+        let randomIndex = Math.floor(Math.random() * (x + 1));
 
         [array[x], array[randomIndex]] = [array[randomIndex], array[x]];
     }
@@ -437,56 +444,85 @@ function shuffleImages(array) {
 
 /****Sets up game versus computer****/
 function vsComputer() {
-    if (isGameActive === false) {
-        let _randomGameChoice = Math.floor(Math.random() * 5);
-        setupScoreboard();
-        if (_randomGameChoice === 1) {
-            createCards(3, 4);
-            setImages(3, 4);
-            cardFlipper();
-        } else if (_randomGameChoice === 2) {
-            createCards(4, 4);
-            setImages(4, 4);
-            cardFlipper();
-        } else if (_randomGameChoice === 3) {
-            createCards(4, 5);
-            setImages(4, 5);
-            cardFlipper();
-        } else if (_randomGameChoice === 4) {
-            createCards(5, 6);
-            setImages(5, 6);
-            cardFlipper();
-        } else if (_randomGameChoice === 5) {
-            createCards(6, 6);
-            setImages(6, 6);
-            cardFlipper();
+	if (isGameActive === false) {
+		let _randomGameChoice = Math.floor(Math.random() * (5 - 1) + 1);
+        console.log();
+		setupScoreboard();
+		if (_randomGameChoice === 1) {
+			createCards(3, 4);
+			setImages(3, 4);
+			cardFlipper();
+		} else if (_randomGameChoice === 2) {
+			createCards(4, 4);
+			setImages(4, 4);
+			cardFlipper();
+		} else if (_randomGameChoice === 3) {
+			createCards(4, 5);
+			setImages(4, 5);
+			cardFlipper();
+		} else if (_randomGameChoice === 4) {
+			createCards(5, 6);
+			setImages(5, 6);
+			cardFlipper();
+		} else if (_randomGameChoice === 5) {
+			createCards(6, 6);
+			setImages(6, 6);
+			cardFlipper();
+		}
+
+		isVersusComputer = true;
+		computerGameChoice = _randomGameChoice;
+		isComputerTurn = true;
+
+		if (computerGameChoice === 1) {
+			totalCardAmount = 12;
+		} else if (computerGameChoice === 2) {
+			totalCardAmount = 16;
+		} else if (computerGameChoice === 3) {
+			totalCardAmount = 20;
+		} else if (computerGameChoice === 4) {
+			totalCardAmount = 30;
+		} else if (computerGameChoice === 6) {
+			totalCardAmount = 36;
+		}
+
+        let _cardSpotArray = [];
+
+        for (let x = 0; x < totalCardAmount; x++) {
+            _cardSpotArray.push(x);
         }
-        isVersusComputer = true;
-        computerGameChoice = _randomGameChoice;
-        computerTurn();
-    }
+    
+        
+        shuffleImages(_cardSpotArray);
+        cardSlotsAvailable = _cardSpotArray;
+		computerTurn();
+        isGameActive = true;
+	}
 }
 
 /****Handles the computer's turn****/
 function computerTurn() {
-    let _randomNumberGenerator = null;
+    let _card1 = Math.floor(Math.random() * totalCardAmount);
+    let _card2 = Math.floor(Math.random() * totalCardAmount);
 
-    if (computerGameChoice === 1) {
-        _randomNumberGenerator = Math.floor(Math.random() * 12);
-    } else if (computerGameChoice === 2) {
-        _randomNumberGenerator = Math.floor(Math.random() * 16);
-    } else if (computerGameChoice === 3) {
-        _randomNumberGenerator = Math.floor(Math.random() * 20);
-    } else if (computerGameChoice === 4) {
-        _randomNumberGenerator = Math.floor(Math.random() * 30);
-    } else if (computerGameChoice === 6) {
-        _randomNumberGenerator = Math.floor(Math.random() * 36);
+    console.log(_card1);
+    console.log(_card2);
+    computerCardFlip(_card1, _card2);
+    isComputerTurn = false;
+}
+
+
+
+function computerCardFlip() {
+    if (this.event.target.classList.contains("visible")) {
+        this.event.target.classList.remove("visible");
+        this.event.target.classList.add("hidden");
+        this.event.target.firstChild.classList.remove("hidden");
+        this.event.target.firstChild.classList.add("visible");
+        let _parent = this.event.target;
+        let _firstChildCopy = this.event.target.firstChild;
+        savedCards.push(_parent, _firstChildCopy);
     }
-
-    //push all available spots into an array, randomize the array, then have
-    //computer choose spots depending on the array. Spots disappear
-    //based on which cards are available/used.
-
 }
 
 /*****Sets up scoreboard for versus computer game*****/
@@ -520,6 +556,21 @@ function resetEverything() {
 function keepPlayerScore() {
     playerScore++;
     viewPlayerScore.innerHTML = `<h3>You</h3>${playerScore}`;
+}
+
+/*****Keeps computer score*****/
+function keepComputerScore() {
+    computerScore++;
+    viewComputerScore.innerHTML = `<h3>AI</h3>${computerScore}`;
+}
+
+/******Win/Lose Conditions******/
+function winLose() {
+    /****A brief pause before calculating win****/
+    while (controlFlow < 3000) {
+        controlFlow++;
+    }
+
     if (playerScore >= currentGameCardCount / 2) {
         // let _audio  = document.createElement("audio");
         // _audio.src = win;
@@ -529,16 +580,11 @@ function keepPlayerScore() {
         // _audio.play();
         alert("CONGRATULATIONS! You Win!");
         resetEverything();
-    }
-}
 
-/*****Keeps computer score*****/
-function keepComputerScore() {
-    computerScore++;
-    viewComputerScore.innerHTML = `<h3>AI</h3>${computerScore}`;
-    if (computerScore >= currentGameCardCount / 2) {
+    } else if (computerScore >= currentGameCardCount / 2) {
         alert("Sorry, You Lose!");
         resetEverything();
+
     }
 }
 
