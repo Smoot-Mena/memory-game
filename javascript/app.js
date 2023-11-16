@@ -2,8 +2,15 @@
  *   Image Links
  ******************/
 
-let images = ["/images/creamcheese.png", "/images/greenbellpepper.png", "/images/jam.png", "/images/ketchup.png", "/images/lettuce.png", "/images/marmalade.png", "/images/mayonnaise.png", "/images/mustard.png", "/images/oliveoil.png", "/images/onion.png", "/images/peanutbutter.png", "/images/pepper.png", "/images/pickle.png", "/images/redbellpepper.png", "/images/redonion.png", "/images/salt.png", "/images/tomato.png", "/images/vinegar.png", "/images/yellowbellpepper.png", "/images/yogurt.png"];
+let images = ["/images/chilisauce.png","/images/bread.png","/images/butter.png","/images/bacon.png","/images/creamcheese.png", "/images/greenbellpepper.png", "/images/jam.png", "/images/ketchup.png", "/images/lettuce.png", "/images/marmalade.png", "/images/mayonnaise.png", "/images/mustard.png", "/images/oliveoil.png", "/images/onion.png", "/images/peanutbutter.png", "/images/pepper.png", "/images/pickle.png", "/images/redbellpepper.png", "/images/redonion.png", "/images/salt.png", "/images/tomato.png", "/images/vinegar.png", "/images/yellowbellpepper.png", "/images/yogurt.png"];
 
+
+/***************
+ *    Sounds
+ **************/
+
+let buzzer = "/sounds/Buzzer1.ogg";
+let win = "/sounds/Refresh.ogg";
 
 /***********************
  *  Global Variables
@@ -24,6 +31,7 @@ let computerScore = 0;
 let cards = null;
 let imgs = null;
 let currentGameCardCount = 0;
+let computerGameChoice = 0;
 
 /***********Elements**********/
 
@@ -353,10 +361,9 @@ function cardFlipper () {
 
             cardFaceUp();
             cardTurnedUp++;
-            if (cardTurnedUp >= 2) {
-                setTimeout(cardFaceDown, 800);
-            }
-
+            if (cardTurnedUp === 2) {
+                setTimeout(cardFaceDown, 850);
+            } 
         });
     });
 }
@@ -376,6 +383,13 @@ function cardFaceUp() {
 
 /******Handles the card flipping face down*******/
 function cardFaceDown() {
+    // let _audio  = document.createElement("audio");
+    //     _audio.src = buzzer;
+    //     document.querySelector("nav").appendChild(_audio);
+    //     _audio.volume = .45;
+    //     _audio.load();
+    //     _audio.play();
+
     if (savedCards[1].src === savedCards[3].src) {
         savedCards.forEach(card => {
             card.classList.remove("card", "card-image")
@@ -409,50 +423,58 @@ function shuffleImages(array) {
     }
 }
 
-// (Richard Durstenfeld shuffle)
-// function shuffleImages(array) {
-//     let currentIndex = array.length;
-
-//     while (0 !== currentIndex) {
-//         let randomIndex = Math.floor(Math.random() * currentIndex);
-//         currentIndex--;
-
-//         let tempIndex = array[currentIndex];
-//         array[currentIndex] = array[randomIndex];
-//         array[randomIndex] = tempIndex; 
-//     }
-//     return array;
-// }
-
 /****Sets up game versus computer****/
 function vsComputer() {
     if (isGameActive === false) {
-        let randomGameChoice = Math.floor(Math.random() * 5);
+        let _randomGameChoice = Math.floor(Math.random() * 5);
         setupScoreboard();
-        if (randomGameChoice === 1) {
+        if (_randomGameChoice === 1) {
             createCards(3, 4);
             setImages(3, 4);
             cardFlipper();
-        } else if (randomGameChoice === 2) {
+        } else if (_randomGameChoice === 2) {
             createCards(4, 4);
             setImages(4, 4);
             cardFlipper();
-        } else if (randomGameChoice === 3) {
+        } else if (_randomGameChoice === 3) {
             createCards(4, 5);
             setImages(4, 5);
             cardFlipper();
-        } else if (randomGameChoice === 4) {
+        } else if (_randomGameChoice === 4) {
             createCards(5, 6);
             setImages(5, 6);
             cardFlipper();
-        } else if (randomGameChoice === 5) {
+        } else if (_randomGameChoice === 5) {
             createCards(6, 6);
             setImages(6, 6);
             cardFlipper();
         }
         isVersusComputer = true;
+        computerGameChoice = _randomGameChoice;
+        computerTurn();
     }
-    
+}
+
+/****Handles the computer's turn****/
+function computerTurn() {
+    let _randomNumberGenerator = null;
+
+    if (computerGameChoice === 1) {
+        _randomNumberGenerator = Math.floor(Math.random() * 12);
+    } else if (computerGameChoice === 2) {
+        _randomNumberGenerator = Math.floor(Math.random() * 16);
+    } else if (computerGameChoice === 3) {
+        _randomNumberGenerator = Math.floor(Math.random() * 20);
+    } else if (computerGameChoice === 4) {
+        _randomNumberGenerator = Math.floor(Math.random() * 30);
+    } else if (computerGameChoice === 6) {
+        _randomNumberGenerator = Math.floor(Math.random() * 36);
+    }
+
+    //push all available spots into an array, randomize the array, then have
+    //computer choose spots depending on the array. Spots disappear
+    //based on which cards are available/used.
+
 }
 
 /*****Sets up scoreboard for versus computer game*****/
@@ -486,7 +508,13 @@ function resetEverything() {
 function keepPlayerScore() {
     playerScore++;
     viewPlayerScore.innerHTML = `<h3>You</h3>${playerScore}`;
-    if (playerScore === currentGameCardCount / 2) {
+    if (playerScore >= currentGameCardCount / 2) {
+        // let _audio  = document.createElement("audio");
+        // _audio.src = win;
+        // document.querySelector("nav").appendChild(_audio);
+        // _audio.volume = .55;
+        // _audio.load();
+        // _audio.play();
         alert("CONGRATULATIONS! You Win!");
         resetEverything();
     }
@@ -496,6 +524,10 @@ function keepPlayerScore() {
 function keepComputerScore() {
     computerScore++;
     viewComputerScore.innerHTML = `<h3>AI</h3>${computerScore}`;
+    if (computerScore >= currentGameCardCount / 2) {
+        alert("Sorry, You Lose!");
+        resetEverything();
+    }
 }
 
 /*****Clears all scores when game is reset*****/

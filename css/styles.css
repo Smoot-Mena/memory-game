@@ -12,12 +12,12 @@
 }
 
 /*Color testing*/
-.somethin{
+/* .somethin{
     color: rgb(99, 104, 255);
     color: rgb(159, 215, 252);
     color: rgb(146, 94, 63);
     
-}
+} */
 
 body {
     height: 100vh;
@@ -149,9 +149,9 @@ h4 {
 #game-options-container {
     position: absolute;
     bottom: 0;
-    left: 15vw;
+    left: 10vw;
     height: 10vh;
-    width: 15vw;
+    width: 20vw;
     text-align: center;
 }
 
