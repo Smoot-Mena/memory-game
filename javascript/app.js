@@ -274,7 +274,7 @@ function createCards(row, column) {
                 _card.style.margin = "1.4vh 1.15vw";
 			}
             _card.style.backgroundColor = "rgb(56, 56, 56)";
-            _card.style.backgroundImage = "url('/images/card-back-alt.jpg')";
+            _card.style.backgroundImage = "url('./images/card-back-alt.jpg')";
             _card.style.backgroundSize = "cover";
             _card.style.backgroundPositionY = "bottom -15px";
             _card.classList.add("card", "visible");
