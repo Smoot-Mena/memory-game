@@ -2,15 +2,15 @@
  *   Image Links
  ******************/
 
-let images = ["/images/chilisauce.png","/images/bread.png","/images/butter.png","/images/bacon.png","/images/creamcheese.png", "/images/greenbellpepper.png", "/images/jam.png", "/images/ketchup.png", "/images/lettuce.png", "/images/marmalade.png", "/images/mayonnaise.png", "/images/mustard.png", "/images/oliveoil.png", "/images/onion.png", "/images/peanutbutter.png", "/images/pepper.png", "/images/pickle.png", "/images/redbellpepper.png", "/images/redonion.png", "/images/salt.png", "/images/tomato.png", "/images/vinegar.png", "/images/yellowbellpepper.png", "/images/yogurt.png"];
+let images = ["./images/chilisauce.png","./images/bread.png","./images/butter.png","./images/bacon.png","./images/creamcheese.png", "./images/greenbellpepper.png", "./images/jam.png", "./images/ketchup.png", "./images/lettuce.png", "./images/marmalade.png", "./images/mayonnaise.png", "./images/mustard.png", "./images/oliveoil.png", "./images/onion.png", "./images/peanutbutter.png", "./images/pepper.png", "./images/pickle.png", "./images/redbellpepper.png", "./images/redonion.png", "./images/salt.png", "./images/tomato.png", "./images/vinegar.png", "./images/yellowbellpepper.png", "./images/yogurt.png"];
 
 
 /***************
  *    Sounds
  **************/
 
-let buzzer = "/sounds/Buzzer1.ogg";
-let win = "/sounds/Refresh.ogg";
+let buzzer = "./sounds/Buzzer1.ogg";
+let win = "./sounds/Refresh.ogg";
 
 /***********************
  *  Global Variables
