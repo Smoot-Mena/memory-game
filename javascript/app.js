@@ -100,7 +100,7 @@ function lightMode() {
     sun.style.backgroundImage = "radial-gradient(yellow, yellow, yellow, orange, orange)";
     pageTitle.style.color = "rgb(56, 56, 56)";
     clouds.forEach(cloud => cloud.style.visibility = "visible");
-    removeStars();
+    // removeStars();
 }
 
 /*********END OF DARK MODE******* */
@@ -113,7 +113,8 @@ function lightMode() {
 /**********Board Size Event Listeners*********/
 
 // 3 x 4
-threeByFour.addEventListener("click", () => {
+threeByFour.addEventListener("click", (event) => {
+    event.preventDefault();
     if (isGameActive === false) {
         createCards(3, 4);
         setImages(3, 4);
@@ -122,7 +123,8 @@ threeByFour.addEventListener("click", () => {
 });
 
 // 4 x 4
-fourByFour.addEventListener("click", () => {
+fourByFour.addEventListener("click", (event) => {
+    event.preventDefault();
     if (isGameActive === false) {
         createCards(4, 4);
         setImages(4, 4);
@@ -131,7 +133,8 @@ fourByFour.addEventListener("click", () => {
 });
 
 // 4 x 5
-fourByFive.addEventListener("click", () => {
+fourByFive.addEventListener("click", (event) => {
+    event.preventDefault();
     if (isGameActive === false) {
         createCards(4, 5);
         setImages(4, 5);
@@ -140,7 +143,8 @@ fourByFive.addEventListener("click", () => {
 });
 
 // 5 x 6
-fiveBySix.addEventListener("click", () => {
+fiveBySix.addEventListener("click", (event) => {
+    event.preventDefault();
     if (isGameActive === false) {
         createCards(5, 6);
         setImages(5, 6);
@@ -149,7 +153,8 @@ fiveBySix.addEventListener("click", () => {
 });
 
 // 6 x 6
-sixBySix.addEventListener("click", () => {
+sixBySix.addEventListener("click", (event) => {
+    event.preventDefault();
     if (isGameActive === false) {
         createCards(6, 6);
         setImages(6, 6);
@@ -159,27 +164,32 @@ sixBySix.addEventListener("click", () => {
 
 
 /**********Board Color Event Listeners*********/
-redButton.addEventListener("click", () => {
+redButton.addEventListener("click", (event) => {
+    event.preventDefault();
     gameBoard.style.borderColor = "red";
     gameBoard.style.backgroundColor = "rgb(255, 185, 185)";
 });
 
-greenButton.addEventListener("click", () => {
+greenButton.addEventListener("click", (event) => {
+    event.preventDefault();
     gameBoard.style.borderColor = "green";
     gameBoard.style.backgroundColor = "rgb(178, 252, 159)";
 });
 
-blueButton.addEventListener("click", () => {
+blueButton.addEventListener("click", (event) => {
+    event.preventDefault();
     gameBoard.style.borderColor = "blue";
     gameBoard.style.backgroundColor = "rgb(159, 215, 252)";
 });
 
-purpleButton.addEventListener("click", () => {
+purpleButton.addEventListener("click", (event) => {
+    event.preventDefault();
     gameBoard.style.borderColor = "purple";
     gameBoard.style.backgroundColor = "rgb(219, 189, 254)";
 });
 
-defaultButton.addEventListener("click", () => {
+defaultButton.addEventListener("click", (event) => {
+    event.preventDefault();
     gameBoard.style.borderColor = "darkgrey";
     gameBoard.style.backgroundColor = "rgb(244, 244, 244)";
 });
@@ -190,14 +200,16 @@ defaultButton.addEventListener("click", () => {
  ***********************/
 
 /*******Reset Game Button*******/
-resetButton.addEventListener("click", () => {
+resetButton.addEventListener("click", (event) => {
+    event.preventDefault();
     if (confirm("Are you sure you want to reset the game?")) {
         resetEverything();
     }
 });
 
 /****Versus computer Button****/
-opponent.addEventListener("click", () => {
+opponent.addEventListener("click", (event) => {
+    event.preventDefault();
     if (confirm("Start game vs computer?")) {
         vsComputer();
     }
