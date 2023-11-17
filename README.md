@@ -18,7 +18,7 @@ A simple project like this only uses the following:
 
 ## Installation
 
-No installation is necessary.
+No installation is necessary. [Mena's Memory Match] (https://smoot-mena.github.io/memory-game/).
 
 Runs directly in your browser. Best compatible with Mozilla Firefox browser, though, 
 as that is how the project was tested during the building phase.
