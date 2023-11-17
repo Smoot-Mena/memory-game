@@ -409,7 +409,7 @@ function cardFaceDown() {
 
     if (savedCards[1].src === savedCards[3].src && isPlayerTurn === true) {
         savedCards.forEach(card => {
-            card.classList.remove("card", "card-image")
+            card.classList.remove("card", "card-image");
         });
         keepPlayerScore(); 
     } else {
@@ -446,7 +446,6 @@ function shuffleImages(array) {
 function vsComputer() {
 	if (isGameActive === false) {
 		let _randomGameChoice = Math.floor(Math.random() * (5 - 1) + 1);
-        console.log();
 		setupScoreboard();
 		if (_randomGameChoice === 1) {
 			createCards(3, 4);
@@ -471,6 +470,7 @@ function vsComputer() {
 		}
 
 		isVersusComputer = true;
+        document.body.style.pointerEvents = "none";
 		computerGameChoice = _randomGameChoice;
 		isComputerTurn = true;
 
@@ -495,8 +495,8 @@ function vsComputer() {
         
         shuffleImages(_cardSpotArray);
         cardSlotsAvailable = _cardSpotArray;
-		computerTurn();
         isGameActive = true;
+        computerTurn();
 	}
 }
 
@@ -505,24 +505,57 @@ function computerTurn() {
     let _card1 = Math.floor(Math.random() * totalCardAmount);
     let _card2 = Math.floor(Math.random() * totalCardAmount);
 
-    console.log(_card1);
-    console.log(_card2);
+    /***Computer know what it wants to flip***/
     computerCardFlip(_card1, _card2);
+    document.body.style.pointerEvents = "auto";
+    winLose();
     isComputerTurn = false;
 }
 
 
 
-function computerCardFlip() {
-    if (this.event.target.classList.contains("visible")) {
-        this.event.target.classList.remove("visible");
-        this.event.target.classList.add("hidden");
-        this.event.target.firstChild.classList.remove("hidden");
-        this.event.target.firstChild.classList.add("visible");
-        let _parent = this.event.target;
-        let _firstChildCopy = this.event.target.firstChild;
-        savedCards.push(_parent, _firstChildCopy);
+function computerCardFlip(number1, number2) {
+    cards = document.querySelectorAll(".card");
+    let card1 = cards[number1];
+    let card2 = cards[number2];
+
+    /****Computer flipping the cards face up****/
+    if (card1.classList.contains("visible") && card2.classList.contains("visible")) {
+        card1.classList.remove("visible");
+        card1.classList.add("hidden");
+        card1.firstChild.classList.remove("hidden");
+        card1.firstChild.classList.add("visible");
+
+        while (controlFlow < 1000) {
+            controlFlow++;
+        }
+
+        card2.classList.remove("visible");
+        card2.classList.add("hidden");
+        card2.firstChild.classList.remove("hidden");
+        card2.firstChild.classList.add("visible");
     }
+
+    /***Card Check and flipping the cards face down***/
+    if (card1.firstChild.src === card2.firstChild.src) {
+        [card1, card2].forEach(card => {
+            card.classList.remove("card");
+            card.firstChild.classList.remove("card-image");
+            cardSlotsAvailable.splice(cardSlotsAvailable.findIndex(card1), 1);
+            cardSlotsAvailable.splice(cardSlotsAvailable.findIndex(card2), 1)
+        });
+        keepComputerScore();
+        computerTurn();
+        
+    } else {
+        [card1, card2].forEach(card => {
+            card.classList.remove("hidden");
+            card.classList.add("visible");
+            card.firstChild.classList.remove("visible");
+            card.firstChild.classList.add("hidden");
+        })
+    }
+    
 }
 
 /*****Sets up scoreboard for versus computer game*****/
